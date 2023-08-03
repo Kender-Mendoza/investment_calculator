@@ -21,7 +21,7 @@ class CurrentCryptoPriceService
       method: "GET",
       url: "https://data.messari.io/api/v1/assets/#{assetKey}/metrics",
       headers: {
-      "x-messari-api-key": "Hg0v49hJlHMX1Ou5Xq6p0NML7Kymq7vhZ8VEYWXWF4oDDiOz" }).body
+      "x-messari-api-key": ENV["MESSARI_API_KEY"] }).body
   rescue RestClient::InternalServerError, RestClient::Unauthorized, RestClient::BadRequest, RestClient::NotFound => e
     { error: e }
   end
