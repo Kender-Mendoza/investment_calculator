@@ -1,6 +1,4 @@
 class CalculatorController < ApplicationController
-  require 'csv'
-
   def index
     render :index, locals: current_crypto_data
   end
@@ -12,30 +10,16 @@ class CalculatorController < ApplicationController
   end
 
   def print_projection
+    csv = ProjectionCsvGenerator.new(params).generate
+
     respond_to do |format|
       format.csv do
-        send_data to_csv, content_type: 'text/csv'
+        send_data csv, content_type: 'text/csv'
       end
     end
   end
 
   private
-
-  def to_csv
-    headers = [
-      "Month",
-      "#{params[:btc_data][:symbol]} - #{params[:btc_data][:price]}",
-      "#{params[:eth_data][:symbol]} - #{params[:eth_data][:price]}"
-    ]
-
-    CSV.generate(col_sep: ';') do |csv|
-      csv << headers
-
-      (params[:projection] || {}).each do |_, element|
-        csv << [element[:month_number], element[:btc_amount], element[:eth_amount]]
-      end
-    end
-  end
 
   def params_permite
     params.permit(:amount)
