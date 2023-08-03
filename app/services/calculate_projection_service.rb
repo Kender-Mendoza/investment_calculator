@@ -1,4 +1,7 @@
 class CalculateProjectionService
+  BTC_INSTEREST_PERCENTAGE = 0.05
+  ETH_INSTEREST_PERCENTAGE = 0.03
+
   def initialize(amount)
     @amount = amount
     @cripto_data = CurrentCryptoPriceService.new.call
@@ -9,9 +12,6 @@ class CalculateProjectionService
   end
 
   private
-
-  BTC_INSTEREST_PERCENTAGE = 0.05
-  ETH_INSTEREST_PERCENTAGE = 0.03
 
   attr_accessor :amount, :cripto_data
 

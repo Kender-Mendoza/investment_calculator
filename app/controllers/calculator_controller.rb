@@ -26,6 +26,6 @@ class CalculatorController < ApplicationController
   end
 
   def current_crypto_data
-    @current_crypto_data = CurrentCryptoPriceService.new.call
+    CurrentCryptoPriceService.new.call
   end
 end

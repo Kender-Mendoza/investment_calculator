@@ -22,14 +22,17 @@ class CurrentCryptoPriceService
       url: "https://data.messari.io/api/v1/assets/#{assetKey}/metrics",
       headers: {
       "x-messari-api-key": "Hg0v49hJlHMX1Ou5Xq6p0NML7Kymq7vhZ8VEYWXWF4oDDiOz" }).body
-  rescue RestClient::InternalServerError, RestClient::Unauthorized, RestClient::BadRequest => e
-    { }
+  rescue RestClient::InternalServerError, RestClient::Unauthorized, RestClient::BadRequest, RestClient::NotFound => e
+    { error: e }
   end
 
   def parse_data(body)
-    return {} if body.blank?
+    parsed_body = JSON.parse(body)
 
-    data = JSON.parse(body)["data"]
+    return { symbol: "", name: "", price_usd: 0, error: parsed_body[:error] } if parsed_body[:error].present?
+
+    data = parsed_body["data"]
+
     {
       symbol: data["symbol"],
       name: data["name"],

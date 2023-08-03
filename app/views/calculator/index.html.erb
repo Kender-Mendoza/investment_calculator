@@ -18,6 +18,23 @@
                                         } %>
       <% end %>
 
+      <div class="alert alert-info mt-3" role="alert">
+        Monthly interest BTC <%= (CalculateProjectionService::BTC_INSTEREST_PERCENTAGE * 100).to_i %>% Y
+        ETH <%= (CalculateProjectionService::ETH_INSTEREST_PERCENTAGE * 100).to_i %>%
+      </div>
+
+      <% if btc_data[:error].present? %>
+        <div class="alert alert-danger" role="alert">
+          Error when request btc: <%= btc_data[:error] %>
+        </div>
+      <% end %>
+
+      <% if eth_data[:error].present? %>
+        <div class="alert alert-danger" role="alert">
+          Error when request eth: <%= eth_data[:error] %>
+        </div>
+      <% end %>
+
       <div class="card mt-3">
         <div class="card-body">
           <table class="table">
