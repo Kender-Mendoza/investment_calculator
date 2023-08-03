@@ -3,10 +3,10 @@ class Calculate {
     this.form = $("#calculate-form")
     this.input = $("#amount")
     this.bodyTable = $("#table-body")
-    this.printButton = $("#pnt-csv-button")
+    this.printButton = $("#print-csv-button")
 
     this.onCalculate();
-    //this.printProjection();
+    this.printProjection();
   }
 
   onCalculate() {
@@ -22,6 +22,7 @@ class Calculate {
           amount: this.input.val()
         },
         success: $.proxy((data) => {
+          this.printButton.data("projection", data.data)
           this.bodyTable.html("")
           $.each(data.data, (key, value) => {
             this.bodyTable.append(
@@ -37,6 +38,32 @@ class Calculate {
         }, this),
         error: $.proxy(() => {
           alert("An error occurred, try again later")
+        }, this)
+      });
+    })
+  }
+
+  printProjection() {
+    this.printButton.on("click", (event) => {
+      event.preventDefault();
+
+      $.ajax({
+        url: "/print_projection",
+        method: "POST",
+        xhrFields: {
+          responseType: "blob"
+        },
+        data: {
+          authenticity_token: $('meta[name=csrf-token]').attr('content'),
+          btc_data: $("#print-csv-button").data("btc-data"),
+          eth_data: $("#print-csv-button").data("eth-data"),
+          projection: $("#print-csv-button").data("projection")
+        },
+        success: $.proxy((data) => {
+          const blob = new Blob([data], {type: "text/csv"}),
+                url = URL.createObjectURL(blob);
+
+          window.open(url);
         }, this)
       });
     })

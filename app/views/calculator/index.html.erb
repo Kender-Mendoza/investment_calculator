@@ -11,6 +11,11 @@
         </div>
 
         <%= form.submit "calculate", id: "submit-btn", class: "btn btn-primary btn-lg" %>
+        <%= button_tag "Generate CSV", id: "print-csv-button", class: "btn btn-success btn-lg",
+                                        data: {
+                                          btc_data: {symbol: btc_data[:symbol], price: btc_data[:price_usd]},
+                                          eth_data: {symbol: eth_data[:symbol], price: eth_data[:price_usd]},
+                                        } %>
       <% end %>
 
       <div class="card mt-3">
@@ -40,9 +45,6 @@
     </div>
     <div class="col-3"></div>
   </div>
-
-  <%#= button_tag "Generate CSV", data: { disable_with: "Please wait..." }, id: "print-csv-button" %>
-  <%#= link_to "Generate CSV", "/print_projection" %>
 </div>
 
 <%= javascript_include_tag "calculate.js" %>

@@ -37,6 +37,27 @@ RSpec.describe CalculatorController, :type => :request do
     end
   end
 
+  describe "#print_projection" do
+    it "render csv" do
+      post print_projection_path(
+        format: :csv,
+        btc_data:{
+          symbol: "BTC",
+          price: 29156.844672102565
+        },
+        eth_data: {
+          symbol: "ETH",
+          price: 1839.7904097390538
+        }
+      )
+
+      expect(response).to have_http_status(:ok)
+      expect(response.header["Content-Type"]).to include "text/csv"
+      expect(response.body).to include(
+        "Month;BTC - 29156.844672102565;ETH - 1839.7904097390538\n")
+    end
+  end
+
   def btc_request
     btc_body = {
       data: {
@@ -51,10 +72,10 @@ RSpec.describe CalculatorController, :type => :request do
     stub_request(:get, "https://data.messari.io/api/v1/assets/btc/metrics").
       with(
         headers: {
-              'Accept'=>'*/*',
-              'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-              'Host'=>'data.messari.io',
-              'User-Agent'=>'rest-client/2.1.0 (darwin22 arm64) ruby/3.1.2p20',
+              "Accept"=>"*/*",
+              "Accept-Encoding"=>"gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+              "Host"=>"data.messari.io",
+              "User-Agent"=>"rest-client/2.1.0 (darwin22 arm64) ruby/3.1.2p20",
         }).
       to_return(status: 200, body: btc_body.to_json)
   end
@@ -73,10 +94,10 @@ RSpec.describe CalculatorController, :type => :request do
     stub_request(:get, "https://data.messari.io/api/v1/assets/eth/metrics").
       with(
         headers: {
-              'Accept'=>'*/*',
-              'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-              'Host'=>'data.messari.io',
-              'User-Agent'=>'rest-client/2.1.0 (darwin22 arm64) ruby/3.1.2p20',
+              "Accept"=>"*/*",
+              "Accept-Encoding"=>"gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+              "Host"=>"data.messari.io",
+              "User-Agent"=>"rest-client/2.1.0 (darwin22 arm64) ruby/3.1.2p20",
         }).
       to_return(status: 200, body: eth_body.to_json)
   end

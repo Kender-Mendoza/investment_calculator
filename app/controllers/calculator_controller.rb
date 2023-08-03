@@ -1,4 +1,6 @@
 class CalculatorController < ApplicationController
+  require 'csv'
+
   def index
     render :index, locals: current_crypto_data
   end
@@ -11,17 +13,27 @@ class CalculatorController < ApplicationController
 
   def print_projection
     respond_to do |format|
-      format.csv { render csv: to_csv, filename: "cars-#{Date.today}.csv" }
+      format.csv do
+        send_data to_csv, content_type: 'text/csv'
+      end
     end
   end
 
   private
 
   def to_csv
-    attributes = %w{id name price} #customize columns here
+    headers = [
+      "Month",
+      "#{params[:btc_data][:symbol]} - #{params[:btc_data][:price]}",
+      "#{params[:eth_data][:symbol]} - #{params[:eth_data][:price]}"
+    ]
 
-    CSV.generate(headers: true) do |csv|
-      csv << attributes
+    CSV.generate(col_sep: ';') do |csv|
+      csv << headers
+
+      (params[:projection] || {}).each do |_, element|
+        csv << [element[:month_number], element[:btc_amount], element[:eth_amount]]
+      end
     end
   end
 

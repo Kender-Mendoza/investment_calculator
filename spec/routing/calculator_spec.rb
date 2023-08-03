@@ -13,7 +13,9 @@ RSpec.describe "Calculator", type: :routing do
     end
 
     it "routes to #print_projection" do
-      #pending
+      expect(post: print_projection_path).to route_to(
+        { "format"=>"csv", "controller"=>"calculator", "action"=>"print_projection" }
+      )
     end
   end
 end
