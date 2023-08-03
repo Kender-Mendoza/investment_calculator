@@ -1,12 +1,14 @@
 class Calculate {
   constructor() {
-    this.form = $("#calculate-form")
-    this.input = $("#amount")
-    this.bodyTable = $("#table-body")
-    this.printButton = $("#print-csv-button")
+    this.form = $("#calculate-form");
+    this.input = $("#amount");
+    this.bodyTable = $("#table-body");
+    this.printButton = $("#print-csv-button");
+    this.jsonButton = $("#print-json-button");
 
     this.onCalculate();
     this.printProjection();
+    this.projectionJson();
   }
 
   onCalculate() {
@@ -22,9 +24,9 @@ class Calculate {
           amount: this.input.val()
         },
         success: $.proxy((data) => {
-          this.printButton.data("projection", data.data)
-          this.bodyTable.html("")
-          $.each(data.data, (key, value) => {
+          this.printButton.data("projection", data.data);
+          this.bodyTable.html("");
+          $.each(data.data, (_, value) => {
             this.bodyTable.append(
               `
                 <tr>
@@ -66,6 +68,12 @@ class Calculate {
           window.open(url);
         }, this)
       });
+    })
+  }
+
+  projectionJson() {
+    this.input.on("change", (event) => {
+      this.jsonButton.attr("href", `/projection?amount=${$("#amount").val()}`)
     })
   }
 }

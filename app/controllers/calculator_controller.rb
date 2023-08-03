@@ -19,6 +19,12 @@ class CalculatorController < ApplicationController
     end
   end
 
+  def projection
+    projection = CalculateProjectionService.new(params_permite[:amount].to_i).call
+
+    render json: { data: projection }, status: 200
+  end
+
   private
 
   def params_permite

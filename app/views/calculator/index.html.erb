@@ -16,6 +16,8 @@
                                           btc_data: {symbol: btc_data[:symbol], price: btc_data[:price_usd]},
                                           eth_data: {symbol: eth_data[:symbol], price: eth_data[:price_usd]},
                                         } %>
+
+        <%= link_to "Generar JSON", projection_path(amount: 0), class: "btn btn-secondary btn-lg", id: "print-json-button", target: "_blank"%>
       <% end %>
 
       <div class="alert alert-info mt-3" role="alert">
