@@ -1,0 +1,48 @@
+<div class="container-fluid">
+  <div class="row align-items-start">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <h3 class="mb-3">Projection Calculator</h3>
+
+      <%= form_with url: "/calculate", method: :post, id: "calculate-form" do |form| %>
+        <div class="input-group input-group-lg mb-3">
+          <%= form.number_field :amount, class: "form-control", placeholder: "Amount to project" %>
+          <span class="input-group-text">$</span>
+        </div>
+
+        <%= form.submit "calculate", id: "submit-btn", class: "btn btn-primary btn-lg" %>
+      <% end %>
+
+      <div class="card mt-3">
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Month</th>
+                <th scope="col">
+                  <img src="https://cdn.svgporn.com/logos/bitcoin.svg" width="20" height="20" />
+                  <%= btc_data[:symbol] %> -
+                  <%= btc_data[:price_usd] %> USD
+                </th>
+                <th scope="col">
+                  <img src="https://cdn.svgporn.com/logos/ethereum.svg" width="20" height="20" />
+                  <%= eth_data[:symbol] %> -
+                  <%= eth_data[:price_usd] %> USD
+                </th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-3"></div>
+  </div>
+
+  <%#= button_tag "Generate CSV", data: { disable_with: "Please wait..." }, id: "print-csv-button" %>
+  <%#= link_to "Generate CSV", "/print_projection" %>
+</div>
+
+<%= javascript_include_tag "calculate.js" %>
