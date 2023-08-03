@@ -58,6 +58,28 @@ RSpec.describe CalculatorController, :type => :request do
     end
   end
 
+  describe "#projection" do
+    it "render json projection" do
+      get projection_path(amount: 100)
+
+      expect(response).to have_http_status(:ok)
+      expect(JSON.parse(response.body)["data"]).to eq(
+        [{"month_number"=>1, "btc_amount"=>0.003601212723147117, "eth_amount"=>0.055984637953737884},
+          {"month_number"=>2, "btc_amount"=>0.0037812733593044733, "eth_amount"=>0.05766417709235002},
+          {"month_number"=>3, "btc_amount"=>0.003970337027269697, "eth_amount"=>0.05939410240512052},
+          {"month_number"=>4, "btc_amount"=>0.004168853878633182, "eth_amount"=>0.061175925477274136},
+          {"month_number"=>5, "btc_amount"=>0.004377296572564841, "eth_amount"=>0.06301120324159236},
+          {"month_number"=>6, "btc_amount"=>0.004596161401193084, "eth_amount"=>0.06490153933884013},
+          {"month_number"=>7, "btc_amount"=>0.004825969471252738, "eth_amount"=>0.06684858551900534},
+          {"month_number"=>8, "btc_amount"=>0.005067267944815375, "eth_amount"=>0.0688540430845755},
+          {"month_number"=>9, "btc_amount"=>0.005320631342056143, "eth_amount"=>0.07091966437711276},
+          {"month_number"=>10, "btc_amount"=>0.00558666290915895, "eth_amount"=>0.07304725430842615},
+          {"month_number"=>11, "btc_amount"=>0.005865996054616898, "eth_amount"=>0.07523867193767894},
+          {"month_number"=>12, "btc_amount"=>0.006159295857347743, "eth_amount"=>0.0774958320958093}]
+      )
+    end
+  end
+
   def btc_request
     btc_body = {
       data: {
