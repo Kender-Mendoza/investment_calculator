@@ -1,8 +1,4 @@
 # README
-
-### Appreview link
-https://calculator-investment-a4eedb29d129.herokuapp.com/
-
 ### Versiones usadas
 - ruby "3.1.2"
 - gem "rails", "~> 7.0.3"
